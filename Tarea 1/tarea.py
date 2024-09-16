@@ -160,7 +160,7 @@ def mostrar_datos(datos):
         print("No se han definido valores aún.")
 
 
-def calcular_solucion(datos):
+def calcular_solucion(datos): #esta es la función que hay que arreglar
     if datos:
         # Aquí se incluirían las fórmulas o cálculos necesarios para obtener la solución
         print("\n--- Solución Calculada ---")
