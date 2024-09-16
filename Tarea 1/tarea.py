@@ -1,4 +1,6 @@
 import numpy as np
+import math
+
 
 def mostrar_menu():
     print("\n--- Menú ---")
@@ -73,6 +75,7 @@ def solicitar_flotante(mensaje):
         except ValueError:
             print("Por favor, ingrese un número válido.")
 
+
 def solicitar_par_ordenado(mensaje):
     """Solicita al usuario un par ordenado (B, H) y maneja excepciones de entrada inválida."""
     while True:
@@ -81,6 +84,7 @@ def solicitar_par_ordenado(mensaje):
             return x, y
         except ValueError:
             print("Favor ingrese un par ordenado válido en el formato B,H.")
+
 
 def resolver_ecuacion_puntos(x1, y1, x2, y2):
     """Resuelve la ecuación de la curva H-B a partir de dos puntos dados."""
@@ -134,13 +138,14 @@ def ingresar_datos():
     L3 = pedir_numero_positivo()
     print("\nSe necesita la longitud LE, correspondiente al ancho del entrehierro")
     LE = pedir_numero_positivo()
+    fe = solicitar_flotante("Se necesita el flujo magnetico deseado por el entrehierro:")
     a_ecuacion, b_ecuacion = curva()
 
     return {
-        "n1": n1, "n2": n2, "Corriente": choice_i, "valor_i": valor_i, 
-        "apilado": apilado, "S_C": S_C, "S_L": S_L, "A": A, 
-        "L1": L1, "L2": L2, "L3": L3, "LE": LE, "Valor A": a_ecuacion,
-        "Valor B": b_ecuacion
+        "n1":[n1, "espiras"], "n2": [n2, "espiras"], "Corriente": [choice_i, "Bobina" ], "valor_i": [valor_i,"A"], 
+        "apilado": [apilado,""], "S_C": [S_C, "metros cuadrados"], "S_L": [S_L,"metros cuadrados"], "A": [A,"m"], 
+        "L1": [L1,"m"], "L2": [L2,"m"], "L3": [L3,"m"], "LE": [LE,"m"],"Flujo magnetico":[fe,"Wb"], "Valor A": [a_ecuacion, ""],
+        "Valor B": [b_ecuacion, ""]
     }
 
 
@@ -148,7 +153,9 @@ def mostrar_datos(datos):
     if datos:
         print("\n--- Valores Definidos ---")
         for key, value in datos.items():
-            print(f"{key}: {value}")
+            # value[0] es el valor y value[1] es la unidad o descripción
+            valor, unidad = value
+            print(f"{key}: {valor} {unidad}")
     else:
         print("No se han definido valores aún.")
 
@@ -158,8 +165,23 @@ def calcular_solucion(datos):
         # Aquí se incluirían las fórmulas o cálculos necesarios para obtener la solución
         print("\n--- Solución Calculada ---")
         # Ejemplo de cálculo simple (modificar según tus necesidades)
-        resultado = float(datos["n1"]) * float(datos["n2"]) * datos["S_C"] * datos["S_L"]
-        print(f"Resultado del cálculo: {resultado}")
+        B3 = float(datos["Flujo magnetico"][0]) /(float(datos["S_C"][0])*float(datos["apilado"][0])) 
+        H3 = B3/(datos["Valor A"][0]-datos["Valor A"][0]*B3)
+        # Cálculo de ha (permeabilidad del aire)
+        ha = 1 / (4 * math.pi * 10 ** -7)  
+        
+        # Cálculo de fmmab (fuerza magnetomotriz en la parte central del núcleo)
+        fmmab = (H3 * (datos["Valor A"][0] - datos["LE"][0]) + ha * datos["LE"][0])
+        
+        h1 = (datos["n1"][0]*datos["valor_i"][0]-fmmab)/datos["L1"][0]
+        b1 =(datos["Valor A"][0] * h1) / (1 + datos["Valor B"][0] * h1)
+        f1 = b1 * datos["S_L"][0] * datos["apilado"][0]
+        f2 = float(datos["Flujo magnetico"][0]) - f1
+        b2 = f2 / ( float(datos["S_L"][0]) * float(datos["apilado"][0]))
+        h2 = b2 / (float(datos["Valor A"][0]) - float(datos["Valor B"][0]) * b1)
+        i2 = (h2 * float(datos["valor_i"][0]) + fmmab) / float(datos["n2"][0])
+        
+        print(i2)
     else:
         print("No se han definido valores para calcular la solución.")
 
