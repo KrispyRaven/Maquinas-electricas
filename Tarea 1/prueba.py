@@ -17,7 +17,7 @@ def calcular_solucion(datos):
         factor_apilado = datos["factor_apilado"]  # Factor de apilado
 
         # Cálculo de la densidad de flujo magnético en el entrehierro (B3)
-        B3 = flujo_deseado / (S3 * factor_apilado)
+        B3 = flujo_deseado / (S3 * factor_apilado) 
 
         # Buscamos el valor de H3 correspondiente a B3 (según la tabla)
         # Aquí debes interpolar o buscar en una tabla B-H para el material
