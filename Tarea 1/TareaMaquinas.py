@@ -167,7 +167,7 @@ else:
     exit()
 
 # Suponemos el valor de fe (fuerza magnetomotriz) y realizamos los cálculos finales
-fe = 100  #
+fe = 0.02  #
 bool = True  # Asumimos un valor para 'bool'
 
 # Cálculo de h3

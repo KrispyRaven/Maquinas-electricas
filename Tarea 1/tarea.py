@@ -165,6 +165,56 @@ def calcular_solucion(datos): #esta es la función que hay que arreglar
         # Aquí se incluirían las fórmulas o cálculos necesarios para obtener la solución
         print("\n--- Solución Calculada ---")
         
+        a_ec = datos["Valor A"][0] 
+        b_ec = datos["Valor B"][0] 
+        n1 = datos["n1"][0]
+        n2  = datos["n2"][0]
+        sl = datos["S_L"][0]
+        sc = datos["S_C"][0]
+        le = datos["LE"][0]
+        l1 = datos["L1"][0]
+        l2 = datos["L2"][0]
+        l3 = datos["L3"][0]
+        L = datos["A"][0]
+        fa = datos["apilado"][0]
+        i_value = datos["valor_i"][0]
+        fe = datos["Flujo magnetico"][0]
+
+  
+        # Cálculo de h3
+        b3 = fe / (sc * fa)
+        h3 = b3 / (a_ec - b_ec * b3)  # Se despeja de la ecuación de la curva
+
+        # Cálculo de ha (permeabilidad del aire)
+        ha = 1 / (4 * math.pi * 10 ** -7)
+
+        # Cálculo de fmmab (fuerza magnetomotriz en la parte central del núcleo)
+        fmmab = (h3 * (a_ec - le) + ha * le)
+
+        if datos["Corriente"][0] == 1:
+            h1 = (n1 * i_value - fmmab) / l1
+            b1 = (a_ec * h1) / (1 + b_ec * h1)
+            f1 = b1 * sl * fa
+            f2 = fe - f1
+            b2 = f2 / (sl * fa)
+            h2 = b2 / (a_ec - b_ec * b2)
+            i2 = (h2 * i_value + fmmab) / n2
+            print("El valor del flujo magnético del núcleo 1 es:", f1, "Wb")
+            print("El valor del flujo magnético del núcleo 2 es:", f2, "Wb")
+            print("El valor de I2 es:", i2, "A")
+        else:
+            h2 = (n2 * i_value - fmmab) / l2
+            b2 = (a_ec * h2) / (1 + b_ec * h2)
+            f2 = b2 * sl * fa
+            f1 = fe - f2
+            b1 = f1 / (sl * fa)
+            h1 = b1 / (a_ec - b_ec * b1)
+            i1 = (h1 * i_value + fmmab) / n1
+            print("El valor del flujo magnético del núcleo 1 es:", f1, "Wb")
+            print("El valor del flujo magnético del núcleo 2 es:", f2, "Wb")
+            print("El valor de I1 es:", i1, "A")
+
+"""
         #Paso 1: se calcula B3 y H3
         B3 = float(datos["Flujo magnetico"][0]) /(float(datos["S_C"][0])*float(datos["apilado"][0])) 
         H3 = B3/(datos["Valor A"][0]-datos["Valor A"][0]*B3)
@@ -219,6 +269,7 @@ def calcular_solucion(datos): #esta es la función que hay que arreglar
         print(i2) # esta es mi respuesta
     else:
         print("No se han definido valores para calcular la solución.")
+"""
 
 
 def main():
