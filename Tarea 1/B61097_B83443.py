@@ -219,64 +219,6 @@ def calcular_solucion(datos): #esta es la función que hay que arreglar
             print("El valor del flujo magnético del núcleo 2 es:", f2, "Wb")
             print("El valor de I1 es:", i1, "A")
 
-"""
-        #Paso 1: se calcula B3 y H3
-        B3 = float(datos["Flujo magnetico"][0]) /(float(datos["S_C"][0])*float(datos["apilado"][0])) 
-        H3 = B3/(datos["Valor A"][0]-datos["Valor A"][0]*B3)
-
-        #Paso 2: se calcula la longitud efectiva del entrehierro y el campo magnético en el aire
-        #campo magnético en el aire dado por:
-        ha = 1 / (4 * math.pi * 10 ** -7)  
-        #longitud efectiva del entrehierro dada por:
-        L_Fe3 = datos["L3"][0] - datos["LE"][0]
-        #densidad de flujo en el entrehierro
-        #Ba = (float(datos["fe"][0])) / float(datos["S3"][0]) si ya tengo cómo calcular el campo magnético en el aire no necesito esto
-
-
-        #Paso 3: cálculo de fmmab (fuerza magnetomotriz en la parte central del núcleo)
-        fmmab = (H3 * (datos["Valor A"][0] - datos["LE"][0]) + ha * datos["LE"][0])
-        
-        #Paso 4: Cálculo de H1, flujo Φ1 y flujo en la segunda rama Φ2
-        h1 = (datos["n1"][0]*datos["valor_i"][0]-fmmab)/datos["L1"][0]
-        b1 =(datos["Valor A"][0] * h1) / (1 + datos["Valor B"][0] * h1)
-        f1 = b1 * datos["S_L"][0] * datos["apilado"][0] #se usa S_L porque S1 = S2 = S_L
-        f2 = float(datos["Flujo magnetico"][0]) - f1
-        b2 = f2 / ( float(datos["S_L"][0]) * float(datos["apilado"][0]))
-        #h2 = 202
-        h2 = b2 / (float(datos["Valor A"][0]) - float(datos["Valor B"][0]) * b1) #ver después si fuese necesario
-
-        #Paso 5: cálculo de la corriente I2
-        i2 = (h2 * float(datos["valor_i"][0]) + fmmab) / float(datos["n2"][0])
-
-        # Parte 1: Cálculo de B3 y H3
-        #B3 = flujo_deseado / (S3 * factor_apilado)  # Densidad de flujo magnético en el entrehierro
-        #H3 = 251  # Valor de H3 dado (extraído de tabla B-H)
-
-        # Parte 2: Longitud efectiva del entrehierro y cálculo de Ha
-        #L_Fe3 = L3 - La  # Longitud efectiva del entrehierro (m) (ya la tenemos)
-        #Ba = flujo_deseado / S3  # Densidad de flujo en el entrehierro
-        #Ha = Ba / mu0  # Campo magnético en el aire (entrehierro)
-    
-        # Parte 3: Fuerza Magnetomotriz (FMM) en la parte central
-        #FMMaS = H3 * LE + Ha * La  # FMM total en el núcleo y entrehierro
-
-        # Parte 4: Cálculo de H1, flujo Φ1 y flujo en la segunda rama Φ2
-        #H1 = (n1 * valor_i - FMMaS) / L1  # Campo magnético H1
-        #B1 = 1.1  # Valor de B1 de la tabla B-H (en T)
-        #flujo1 = B1 * S1 * factor_apilado  # Flujo en la rama lateral 1 (Wb)
-        #flujo2 = flujo_deseado - flujo1  # Flujo en la rama lateral 2 (Wb)
-        #B2 = flujo2 / (S2 * factor_apilado)  # Densidad de flujo en la rama lateral 2
-        #H2 = 202  # Valor de H2 dado (extraído de tabla B-H)
-
-        # Parte 5: Cálculo de la corriente I2
-        #i2 = (H2 * L2 + FMMaS) / n2  # Corriente en el secundario
-        
-        print(i2) # esta es mi respuesta
-    else:
-        print("No se han definido valores para calcular la solución.")
-"""
-
-
 def main():
     datos = {}
     while True:
